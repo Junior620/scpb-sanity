@@ -8,7 +8,13 @@ export default defineType({
     defineField({
       name: 'name',
       title: 'Nom complet',
-      type: 'string',
+      type: 'object',
+      description: 'Nom du membre de l\'équipe dans différentes langues',
+      fields: [
+        { name: 'fr', title: 'Français', type: 'string', validation: (Rule) => Rule.required() },
+        { name: 'en', title: 'English', type: 'string', validation: (Rule) => Rule.required() },
+        { name: 'ru', title: 'Русский (Russe)', type: 'string', description: 'Nom translittéré en cyrillique' },
+      ],
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -83,9 +89,16 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: 'name',
-      subtitle: 'role.fr',
+      nameFr: 'name.fr',
+      roleFr: 'role.fr',
       media: 'photo',
+    },
+    prepare({ nameFr, roleFr, media }) {
+      return {
+        title: nameFr,
+        subtitle: roleFr,
+        media,
+      }
     },
   },
   orderings: [
