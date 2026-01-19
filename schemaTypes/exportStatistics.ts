@@ -32,9 +32,11 @@ export default defineType({
       fields: [
         defineField({
           name: 'tonnesExported',
-          title: 'Tonnes exportées',
+          title: 'Capacité d\'exportation (tonnes/an)',
+          description: 'Capacité annuelle d\'exportation (toutes commodités confondues) : entre 20 000 et 40 000 tonnes',
           type: 'number',
-          validation: (Rule) => Rule.min(0),
+          initialValue: 30000,
+          validation: (Rule) => Rule.required().min(20000).max(40000),
         }),
         defineField({
           name: 'countriesServed',
