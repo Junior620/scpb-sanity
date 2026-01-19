@@ -141,16 +141,21 @@ export default defineType({
           fields: [
             defineField({
               name: 'country',
-              title: 'Pays',
-              type: 'string',
+              title: 'Pays (multilingue)',
+              type: 'object',
+              fields: [
+                { name: 'fr', title: 'Français', type: 'string' },
+                { name: 'en', title: 'English', type: 'string' },
+                { name: 'ru', title: 'Русский', type: 'string' },
+              ],
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: 'countryCode',
               title: 'Code pays (ISO)',
               type: 'string',
-              description: 'Ex: FR, BE, NL, DE, CN',
-              validation: (Rule) => Rule.required().length(2),
+              description: 'Ex: FR, BE, NL, DE, CN, IDN, USA',
+              validation: (Rule) => Rule.required().min(2).max(3),
             }),
             defineField({
               name: 'percentage',
@@ -166,13 +171,15 @@ export default defineType({
           ],
           preview: {
             select: {
-              country: 'country',
+              countryFr: 'country.fr',
+              countryEn: 'country.en',
               percentage: 'percentage',
               port: 'port',
             },
-            prepare({ country, percentage, port }) {
+            prepare({ countryFr, countryEn, percentage, port }) {
+              const displayName = countryFr || countryEn || 'Pays inconnu';
               return {
-                title: `${country} - ${percentage}%`,
+                title: `${displayName} - ${percentage}%`,
                 subtitle: port ? `Port: ${port}` : '',
               }
             },
