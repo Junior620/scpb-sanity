@@ -74,6 +74,41 @@ export default defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: 'video',
+      title: 'Vidéo (optionnel)',
+      description: 'URL de la vidéo (YouTube, Vimeo, ou lien direct)',
+      type: 'object',
+      fields: [
+        {
+          name: 'url',
+          title: 'URL de la vidéo',
+          type: 'url',
+          validation: (Rule) => Rule.uri({
+            scheme: ['http', 'https'],
+          }),
+        },
+        {
+          name: 'platform',
+          title: 'Plateforme',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'YouTube', value: 'youtube' },
+              { title: 'Vimeo', value: 'vimeo' },
+              { title: 'Lien direct (MP4)', value: 'direct' },
+            ],
+          },
+        },
+        {
+          name: 'thumbnail',
+          title: 'Miniature personnalisée (optionnel)',
+          type: 'image',
+          description: 'Si non fournie, l\'image principale sera utilisée',
+          options: { hotspot: true },
+        },
+      ],
+    }),
+    defineField({
       name: 'publishedAt',
       title: 'Date de publication',
       type: 'datetime',
