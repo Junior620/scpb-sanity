@@ -48,6 +48,7 @@ export default defineType({
           { title: 'Hévéa', value: 'hevea' },
           { title: 'Amandes', value: 'amandes' },
           { title: 'Sorgho', value: 'sorgho' },
+          { title: 'Poivre', value: 'poivre' },
         ],
       },
       validation: (Rule) => Rule.required(),
