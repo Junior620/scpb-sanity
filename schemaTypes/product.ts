@@ -69,8 +69,105 @@ export default defineType({
     defineField({
       name: 'gallery',
       title: 'Galerie photos',
+      description: 'Ajoutez plusieurs images du produit (processus, qualité, conditionnement, etc.)',
       type: 'array',
-      of: [{ type: 'image', options: { hotspot: true } }],
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'caption',
+              title: 'Légende',
+              type: 'object',
+              fields: [
+                { name: 'fr', title: 'Français', type: 'string' },
+                { name: 'en', title: 'English', type: 'string' },
+                { name: 'ru', title: 'Русский', type: 'string' },
+              ],
+            },
+            {
+              name: 'alt',
+              title: 'Texte alternatif (SEO)',
+              type: 'string',
+              description: 'Description de l\'image pour l\'accessibilité et le SEO',
+            },
+          ],
+        },
+      ],
+      validation: (Rule) => Rule.max(10).warning('Maximum 10 images recommandé pour la performance'),
+    }),
+    defineField({
+      name: 'videos',
+      title: 'Vidéos',
+      description: 'Ajoutez des vidéos du produit (processus de production, qualité, etc.)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'video',
+          title: 'Vidéo',
+          fields: [
+            {
+              name: 'file',
+              title: 'Fichier vidéo',
+              type: 'file',
+              options: {
+                accept: 'video/*',
+              },
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'thumbnail',
+              title: 'Miniature',
+              type: 'image',
+              description: 'Image de prévisualisation de la vidéo',
+              options: { hotspot: true },
+            },
+            {
+              name: 'title',
+              title: 'Titre',
+              type: 'object',
+              fields: [
+                { name: 'fr', title: 'Français', type: 'string' },
+                { name: 'en', title: 'English', type: 'string' },
+                { name: 'ru', title: 'Русский', type: 'string' },
+              ],
+            },
+            {
+              name: 'description',
+              title: 'Description',
+              type: 'object',
+              fields: [
+                { name: 'fr', title: 'Français', type: 'text' },
+                { name: 'en', title: 'English', type: 'text' },
+                { name: 'ru', title: 'Русский', type: 'text' },
+              ],
+            },
+            {
+              name: 'duration',
+              title: 'Durée (secondes)',
+              type: 'number',
+              description: 'Durée de la vidéo en secondes',
+            },
+          ],
+          preview: {
+            select: {
+              title: 'title.fr',
+              subtitle: 'duration',
+              media: 'thumbnail',
+            },
+            prepare({ title, duration, media }) {
+              return {
+                title: title || 'Vidéo sans titre',
+                subtitle: duration ? `${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}` : 'Durée non spécifiée',
+                media,
+              }
+            },
+          },
+        },
+      ],
+      validation: (Rule) => Rule.max(5).warning('Maximum 5 vidéos recommandé pour la performance'),
     }),
     // Origine et traçabilité
     defineField({
