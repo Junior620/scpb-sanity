@@ -64,7 +64,10 @@ export default defineType({
       name: 'image',
       title: 'Image principale',
       type: 'image',
-      options: { hotspot: true },
+      options: { 
+        hotspot: true,
+        accept: 'image/*,.heic,.heif'
+      },
     }),
     defineField({
       name: 'gallery',
@@ -74,7 +77,10 @@ export default defineType({
       of: [
         {
           type: 'image',
-          options: { hotspot: true },
+          options: { 
+            hotspot: true,
+            accept: 'image/*,.heic,.heif'
+          },
           fields: [
             {
               name: 'caption',
@@ -122,7 +128,10 @@ export default defineType({
               title: 'Miniature',
               type: 'image',
               description: 'Image de prévisualisation de la vidéo',
-              options: { hotspot: true },
+              options: { 
+                hotspot: true,
+                accept: 'image/*,.heic,.heif'
+              },
             },
             {
               name: 'title',

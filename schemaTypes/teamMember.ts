@@ -56,7 +56,10 @@ export default defineType({
       name: 'photo',
       title: 'Photo',
       type: 'image',
-      options: { hotspot: true },
+      options: { 
+        hotspot: true,
+        accept: 'image/*,.heic,.heif'
+      },
     }),
     defineField({
       name: 'email',

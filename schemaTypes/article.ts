@@ -55,15 +55,15 @@ export default defineType({
       fields: [
         { name: 'fr', title: 'Français', type: 'array', of: [
           { type: 'block' },
-          { type: 'image', options: { hotspot: true } },
+          { type: 'image', options: { hotspot: true, accept: 'image/*,.heic,.heif' } },
         ]},
         { name: 'en', title: 'English', type: 'array', of: [
           { type: 'block' },
-          { type: 'image', options: { hotspot: true } },
+          { type: 'image', options: { hotspot: true, accept: 'image/*,.heic,.heif' } },
         ]},
         { name: 'ru', title: 'Русский', type: 'array', of: [
           { type: 'block' },
-          { type: 'image', options: { hotspot: true } },
+          { type: 'image', options: { hotspot: true, accept: 'image/*,.heic,.heif' } },
         ]},
       ],
     }),
@@ -71,7 +71,10 @@ export default defineType({
       name: 'image',
       title: 'Image principale',
       type: 'image',
-      options: { hotspot: true },
+      options: { 
+        hotspot: true,
+        accept: 'image/*,.heic,.heif'
+      },
     }),
     defineField({
       name: 'video',
@@ -104,7 +107,10 @@ export default defineType({
           title: 'Miniature personnalisée (optionnel)',
           type: 'image',
           description: 'Si non fournie, l\'image principale sera utilisée',
-          options: { hotspot: true },
+          options: { 
+            hotspot: true,
+            accept: 'image/*,.heic,.heif'
+          },
         },
       ],
     }),
