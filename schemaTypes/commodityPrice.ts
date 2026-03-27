@@ -21,7 +21,7 @@ export default defineType({
       name: 'unit',
       title: 'Unité',
       type: 'string',
-      initialValue: 'FCFA/KG FOB',
+      initialValue: 'FCFA / KG FOB',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
