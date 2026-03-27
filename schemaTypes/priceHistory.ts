@@ -1,8 +1,8 @@
 import { defineField, defineType } from 'sanity';
 
 export default defineType({
-  name: 'commodityPrice',
-  title: 'Prix des Matières Premières',
+  name: 'priceHistory',
+  title: 'Historique des Prix',
   type: 'document',
   fields: [
     defineField({
@@ -21,8 +21,6 @@ export default defineType({
       name: 'unit',
       title: 'Unité',
       type: 'string',
-      initialValue: 'FCFA/KG FOB ONCC',
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'trend',
@@ -35,26 +33,31 @@ export default defineType({
           { title: 'Stable', value: 'stable' },
         ],
       },
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'change',
       title: 'Variation (%)',
       type: 'number',
-      description: 'Variation en pourcentage (positif pour hausse, négatif pour baisse)',
     }),
     defineField({
-      name: 'lastUpdated',
-      title: 'Dernière mise à jour',
+      name: 'recordedAt',
+      title: "Date d'enregistrement",
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'source',
       title: 'Source',
       type: 'string',
-      description: 'URL ou nom de la source des données',
     }),
+  ],
+  orderings: [
+    {
+      title: 'Date (récent en premier)',
+      name: 'recordedAtDesc',
+      by: [{ field: 'recordedAt', direction: 'desc' }],
+    },
   ],
   preview: {
     select: {
@@ -62,12 +65,14 @@ export default defineType({
       price: 'price',
       unit: 'unit',
       trend: 'trend',
+      date: 'recordedAt',
     },
-    prepare({ title, price, unit, trend }) {
+    prepare({ title, price, unit, trend, date }) {
       const trendIcon = trend === 'up' ? '📈' : trend === 'down' ? '📉' : '➡️';
+      const dateStr = date ? new Date(date).toLocaleDateString('fr-FR') : '';
       return {
-        title: `${title}`,
-        subtitle: `${price} ${unit} ${trendIcon}`,
+        title: `${title} — ${price} ${unit} ${trendIcon}`,
+        subtitle: dateStr,
       };
     },
   },
